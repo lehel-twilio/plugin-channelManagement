@@ -1,0 +1,13 @@
+[
+  {
+    "name": "ChannelManagementPlugin",
+    "version": "0.0.0",
+    "class": "ChannelManagementPlugin",
+    "requires": [
+      {
+        "@twilio/flex-ui": "^1.0.0"
+      }
+    ],
+    "src": "http://localhost:8080/plugin-channelManagement.js"
+  }
+]
