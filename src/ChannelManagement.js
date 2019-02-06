@@ -119,34 +119,29 @@ const buttonStyles = {
 class ChannelManagement extends React.Component {
 
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = { channelAvailability: {} }
   };
 
   componentDidMount() {
     if (typeof(this.props.selectedWorker) !== 'undefined') {
-      this.fetchData();
+      this.fetchData(this.props.selectedWorker);
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps.selectedWorker);
-
-    if (typeof(nextProps.selectedWorker) !== 'undefined') {
-      this.fetchData();
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedWorker !== prevProps.selectedWorker) {
+      this.fetchData(this.props.selectedWorker);
     }
   }
 
-  fetchData() {
-    console.log(this.props.selectedWorker);
-
+  fetchData(selectedWorker) {
     fetch(`${this.props.url}/get-worker-channels`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'POST',
-      body: `WorkerSid=${this.props.selectedWorker}`
+      body: `WorkerSid=${selectedWorker}`
     })
     .then(response => response.json())
     .then(jsonResponse => {
@@ -194,8 +189,6 @@ class ChannelManagement extends React.Component {
 
   handleToggle = value => () => {
 
-    console.log(value);
-
     let { channelAvailability, channelCapacity } = this.state;
     channelAvailability[value] = channelAvailability[value] ? false : true; //toggle
 
@@ -217,7 +210,7 @@ class ChannelManagement extends React.Component {
   };
 
   reset = () => {
-    this.fetchData();
+    this.fetchData(this.props.selectedWorker);
   };
 
   submit = () => {
