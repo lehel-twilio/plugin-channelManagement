@@ -10,6 +10,11 @@ exports.handler = function(context, event, callback) {
 
 	console.log(event.WorkerSid);
 
+	if (event.WorkerSid === 'undefined') {
+	    response.body = 'no worker specified';
+	    callback(null, response);
+	}
+
 	client
         .taskrouter
         .workspaces(context.TWILIO_WORKSPACE_SID)
