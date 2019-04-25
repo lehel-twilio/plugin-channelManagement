@@ -83,7 +83,7 @@ const styles = theme => ({
   textField: {
     width: '48px',
     position: 'relative',
-    paddingRight: '70px'
+    marginRight: '70px'
   },
   colorSwitchBase: {
     color: '#3376D2',
@@ -226,12 +226,11 @@ class ChannelManagement extends React.Component {
       return Object.keys(channelAvailability).map((channel, i) => {
 
         return (
-          <ListItem className={classes.listItem}>
+          <ListItem className={classes.listItem} key={i}>
             <ListItemText primary={channel} className={classes.listItemText} disableTypography='true'/>
             <TextField
               id={channel}
               className={classes.textField}
-              defaultValue={channelCapacity[channel]}
               value={channelCapacity[channel]}
               margin='normal'
               variant='outlined'
