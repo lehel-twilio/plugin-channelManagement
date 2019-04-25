@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import * as Flex from '@twilio/flex-ui'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -136,12 +136,13 @@ class ChannelManagement extends React.Component {
   }
 
   fetchData(selectedWorker) {
+    const token = Flex.Manager.getInstance().user.token
     fetch(`${this.props.url}/get-worker-channels`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'POST',
-      body: `WorkerSid=${selectedWorker}`
+      body: `WorkerSid=${selectedWorker}&token=${token}`
     })
     .then(response => response.json())
     .then(jsonResponse => {
@@ -162,12 +163,13 @@ class ChannelManagement extends React.Component {
   };
 
   submitData() {
+    const token = Flex.Manager.getInstance().user.token
     fetch(`${this.props.url}/update-worker-channels`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'POST',
-      body: `WorkerSid=${this.props.selectedWorker}&channelAvailability=${JSON.stringify(this.state.channelAvailability)}&channelCapacity=${JSON.stringify(this.state.channelCapacity)}`
+      body: `WorkerSid=${this.props.selectedWorker}&channelAvailability=${JSON.stringify(this.state.channelAvailability)}&channelCapacity=${JSON.stringify(this.state.channelCapacity)}&token=${token}`
     })
     .then(response => response.json())
     .then(jsonResponse => {
