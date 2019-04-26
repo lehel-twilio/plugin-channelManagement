@@ -40,7 +40,7 @@ const styles = theme => ({
     marginRight: '6px',
     marginBottom: '24px',
     alignSelf: 'center',
-    background: '#90B2DF',
+    background: '#1976D2',
     height: '28px',
     minHeight: '28px',
     width: '100px',
@@ -52,7 +52,7 @@ const styles = theme => ({
     fontWeight: 'bold',
     boxShadow: 'none',
     '&:hover': {
-      backgroundColor: '#8AA6CB',
+      backgroundColor: '#145EA8',
     },
   },
   resetButton: {
@@ -103,7 +103,6 @@ const channelManagementStyles = {
   padding: '0px',
   width: '100%',
   display: 'flex',
-  height: '400px',
   flexDirection: 'column'
 };
 
@@ -120,7 +119,7 @@ class ChannelManagement extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { channelAvailability: {} }
+    this.state = { channelAvailability: {}, channelCapacity: {}, disableButtons: true }
   };
 
   componentDidMount() {
@@ -129,7 +128,7 @@ class ChannelManagement extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.selectedWorker !== prevProps.selectedWorker) {
       this.fetchData(this.props.selectedWorker);
     }
@@ -146,18 +145,16 @@ class ChannelManagement extends React.Component {
     })
     .then(response => response.json())
     .then(jsonResponse => {
-
       let channelAvailabilityMap = {};
       let channelCapacityMap = {};
-
       for (let item in jsonResponse) {
         channelAvailabilityMap[jsonResponse[item].taskChannelUniqueName] = jsonResponse[item].available;
         channelCapacityMap[jsonResponse[item].taskChannelUniqueName] = jsonResponse[item].configuredCapacity;
       };
-
       this.setState({
         channelAvailability: channelAvailabilityMap,
-        channelCapacity: channelCapacityMap
+        channelCapacity: channelCapacityMap,
+        disableButtons: true
       });
     });
   };
@@ -173,41 +170,37 @@ class ChannelManagement extends React.Component {
     })
     .then(response => response.json())
     .then(jsonResponse => {
-
       let channelAvailabilityMap = {};
       let channelCapacityMap = {};
-
       for (let item in jsonResponse) {
         channelAvailabilityMap[jsonResponse[item].taskChannelUniqueName] = jsonResponse[item].available;
         channelCapacityMap[jsonResponse[item].taskChannelUniqueName] = jsonResponse[item].configuredCapacity;
       };
-
       this.setState({
         channelAvailability: channelAvailabilityMap,
-        channelCapacity: channelCapacityMap
+        channelCapacity: channelCapacityMap,
+        disableButtons: true
       });
     });
   };
 
   handleToggle = value => () => {
-
     let { channelAvailability, channelCapacity } = this.state;
     channelAvailability[value] = channelAvailability[value] ? false : true; //toggle
-
     this.setState({
       channelAvailability: channelAvailability,
-      channelCapacity: channelCapacity
+      channelCapacity: channelCapacity,
+      disableButtons: false
     });
   };
 
   handleCapacityChange = (e) => {
-
     let { channelAvailability, channelCapacity } = this.state;
     channelCapacity[e.target.id] = parseInt(e.target.value, 10);
-
     this.setState({
       channelAvailability: channelAvailability,
-      channelCapacity: channelCapacity
+      channelCapacity: channelCapacity,
+      disableButtons: false
     });
   };
 
@@ -220,9 +213,7 @@ class ChannelManagement extends React.Component {
   };
 
   render() {
-
     const { classes } = this.props;
-
     const mapStructure = (channelAvailability, channelCapacity) => {
 
       return Object.keys(channelAvailability).map((channel, i) => {
@@ -260,8 +251,8 @@ class ChannelManagement extends React.Component {
           {mapStructure(this.state.channelAvailability, this.state.channelCapacity)}
         </List>
         <div style={buttonStyles}>
-          <Button variant='contained' className={classes.submitButton} onClick={this.submit}>Submit</Button>
-          <Button variant='contained' className={classes.resetButton} onClick={this.reset}>Reset</Button>
+          <Button variant='contained' className={classes.submitButton} disabled={this.state.disableButtons} onClick={this.submit}>Submit</Button>
+          <Button variant='contained' className={classes.resetButton} disabled={this.state.disableButtons} onClick={this.reset}>Reset</Button>
         </div>
       </div>
     );
