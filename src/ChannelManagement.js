@@ -128,7 +128,7 @@ class ChannelManagement extends React.Component {
     }
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.selectedWorker !== prevProps.selectedWorker) {
       this.fetchData(this.props.selectedWorker);
     }

@@ -44,5 +44,5 @@ Run the following command to start the bundling:
 npm run build
 ```
 
-Afterwards, you'll find in your project a `build/` folder that contains a file with the name of your plugin project. For example `plugin-example.js`. Take this file and upload it into the Assets part of your Twilio Runtime.  There are also a couple runtime functions under `src/functions` that you'll need to use to create new Functions with under your Twilio Runtime.  Be sure to uncheck "Check for valid Twilio signature" since authentication is being handled with a separate JWT validation call.
+Afterwards, you'll find in your project a `build/` folder that contains a file with the name of your plugin project. For example `plugin-example.js`. Take this file and upload it into the Assets part of your Twilio Runtime.  There are also a couple runtime functions under `src/functions` that you'll need to use to create new Functions with under your Twilio Runtime.  Be sure to uncheck "Check for valid Twilio signature" since authentication is being handled with a separate JWT validation call.  In order for these functions to work, you'll want to go to your Twilio Runtime Functions Configure page to enable ACCOUNT_SID and AUTH_TOKEN, as well as enter your TWILIO_WORKSPACE_SID (from Taskrouter) and add an npm module dependency for `request 2.88.0`.
 
