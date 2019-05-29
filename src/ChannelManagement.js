@@ -1,3 +1,4 @@
+
 import React from "react";
 import { connect } from "react-redux";
 
@@ -206,6 +207,7 @@ class ChannelManagement extends React.Component {
   }
 
   fetchData(selectedWorker) {
+    const token = Flex.Manager.getInstance().user.token
     fetch(`${this.props.url}/get-worker-channels`, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -246,6 +248,7 @@ class ChannelManagement extends React.Component {
   };
 
   submitData() {
+    const token = Flex.Manager.getInstance().user.token
     fetch(`${this.props.url}/update-worker-channels`, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"

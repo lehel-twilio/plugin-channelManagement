@@ -13,6 +13,9 @@ cd plugin-channelManagement
 
 # If you use npm
 npm install
+
+# Enter your account sid and runtime domain
+cp public/appConfig.example.js public/appConfig.js
 ```
 
 ## Development
@@ -33,7 +36,7 @@ When you make changes to your code, the browser window will be automatically ref
 
 ## Deploy
 
-Once you are happy with your plugin, you have to bundle it, in order to deply it to Twilio Flex.
+Once you are happy with your plugin, you have to bundle it, in order to deploy it to Twilio Flex.
 
 Run the following command to start the bundling:
 
@@ -41,4 +44,5 @@ Run the following command to start the bundling:
 npm run build
 ```
 
-Afterwards, you'll find in your project a `build/` folder that contains a file with the name of your plugin project. For example `plugin-example.js`. Take this file and upload it into the Assets part of your Twilio Runtime.
+Afterwards, you'll find in your project a `build/` folder that contains a file with the name of your plugin project. For example `plugin-example.js`. Take this file and upload it into the Assets part of your Twilio Runtime.  There are also a couple runtime functions under `src/functions` that you'll need to use to create new Functions with under your Twilio Runtime.  Be sure to uncheck "Check for valid Twilio signature" since authentication is being handled with a separate JWT validation call.  In order for these functions to work, you'll want to go to your Twilio Runtime Functions Configure page to enable ACCOUNT_SID and AUTH_TOKEN, as well as enter your TWILIO_WORKSPACE_SID (from Taskrouter) and add an npm module dependency for `request 2.88.0`.
+
